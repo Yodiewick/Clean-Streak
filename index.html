@@ -5,26 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Clean Streak" />
 <meta name="theme-color" content="#07120d" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230a1a12'/%3E%3Cpath d='M50 95 L80 125 L135 60' stroke='%2334d399' stroke-width='14' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
 <title>Clean Streak</title>
 <style>
   :root {
-    --bg: #07120d;
-    --bg-2: #0a1a12;
-    --card: #0d2118;
-    --card-2: #112a1e;
-    --card-3: #163425;
-    --border: #1a3a2a;
-    --border-2: #234a36;
-    --text: #e6f5ec;
-    --muted: #7ba48d;
-    --dim: #4a6d5a;
-    --accent: #34d399;
-    --accent-2: #10b981;
-    --accent-soft: rgba(52, 211, 153, 0.14);
-    --accent-glow: rgba(52, 211, 153, 0.35);
+    --bg: #07120d; --bg-2: #0a1a12;
+    --card: #0d2118; --card-2: #112a1e; --card-3: #163425;
+    --border: #1a3a2a; --border-2: #234a36;
+    --text: #e6f5ec; --muted: #7ba48d; --dim: #4a6d5a;
+    --accent: #34d399; --accent-2: #10b981;
+    --accent-soft: rgba(52,211,153,0.14);
+    --accent-glow: rgba(52,211,153,0.35);
     --danger: #f87171;
-    --danger-soft: rgba(248, 113, 113, 0.12);
+    --danger-soft: rgba(248,113,113,0.12);
     --gold: #fbbf24;
     --purple: #a78bfa;
     --modal-bg: #143225;
@@ -45,13 +40,14 @@
   }
   .app { width: 100%; max-width: 500px; }
 
-  /* Header */
   .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .brand {
     font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #6ee7b7, #34d399);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    display: flex; align-items: center; gap: 6px;
   }
+  .brand-cross { font-size: 0.85rem; color: var(--accent); }
   .header-right { display: flex; align-items: center; gap: 8px; }
   .streak-pill {
     display: flex; align-items: center; gap: 7px;
@@ -74,7 +70,35 @@
   }
   .menu-btn:active { background: var(--card-2); }
 
-  /* Tabs */
+  .banner {
+    display: flex; align-items: center; gap: 10px;
+    border-radius: 12px; padding: 11px 13px;
+    margin-bottom: 12px;
+    font-size: 0.78rem; color: var(--text);
+    animation: bannerIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes bannerIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .banner.warn {
+    background: linear-gradient(135deg, rgba(251,191,36,0.14), rgba(251,191,36,0.05));
+    border: 1px solid rgba(251,191,36,0.32);
+  }
+  .banner-ico { font-size: 1.05rem; flex-shrink: 0; }
+  .banner-text { flex: 1; line-height: 1.35; }
+  .banner-btn {
+    border: none; padding: 7px 11px; border-radius: 8px;
+    font-family: inherit; font-size: 0.72rem; font-weight: 700;
+    cursor: pointer; flex-shrink: 0;
+    background: var(--gold); color: #1a1205;
+  }
+  .banner-dismiss {
+    background: transparent; border: none;
+    color: var(--dim); font-size: 1.15rem;
+    cursor: pointer; padding: 0 2px; line-height: 1; flex-shrink: 0;
+  }
+
   .tabs {
     display: grid; grid-template-columns: repeat(4, 1fr);
     border-bottom: 1px solid var(--border); margin-bottom: 16px;
@@ -86,7 +110,6 @@
     cursor: pointer; font-family: inherit;
     transition: color 0.2s ease;
   }
-  .tab:hover { color: var(--muted); }
   .tab.active { color: var(--accent); }
   .tab.active::after {
     content: ''; position: absolute; bottom: -1px; left: 50%;
@@ -95,7 +118,6 @@
     box-shadow: 0 0 8px var(--accent-glow);
   }
 
-  /* View container */
   .view-container {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 18px; padding: 16px; min-height: 420px;
@@ -106,17 +128,27 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Quote */
-  .quote {
-    text-align: center; font-size: 0.76rem; color: var(--muted);
-    font-style: italic; line-height: 1.5;
-    margin-bottom: 14px; padding: 0 8px;
-    letter-spacing: 0.005em;
+  .verse-card {
+    background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.02));
+    border: 1px solid rgba(52,211,153,0.22);
+    border-radius: 12px; padding: 14px 15px;
+    margin-bottom: 14px; text-align: center;
   }
-  .quote::before { content: '"'; color: var(--accent); }
-  .quote::after  { content: '"'; color: var(--accent); }
+  .verse-text {
+    font-size: 0.82rem; color: var(--text);
+    line-height: 1.55; font-style: italic;
+    margin-bottom: 6px;
+  }
+  .verse-ref {
+    font-size: 0.68rem; color: var(--accent);
+    font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .verse-cross {
+    font-size: 0.72rem; color: var(--accent);
+    margin-bottom: 6px; opacity: 0.7;
+  }
 
-  /* Nav */
   .nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .nav-label { font-size: 0.94rem; font-weight: 600; letter-spacing: -0.01em; }
   .nav-btn {
@@ -129,7 +161,6 @@
   }
   .nav-btn:active { background: var(--border); }
 
-  /* Weekday row + grids */
   .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 5px; }
   .weekday {
     text-align: center; font-size: 0.6rem; font-weight: 700;
@@ -137,7 +168,6 @@
   }
   .month-grid, .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
-  /* Day cell */
   .day-cell {
     aspect-ratio: 1; position: relative;
     background: var(--card-2); border: 1px solid var(--border);
@@ -160,16 +190,15 @@
   .day-cell.status-relapse .day-mark,
   .day-cell.status-relapse .day-num { color: var(--danger); }
   .day-cell.status-missed .day-mark { color: var(--dim); font-size: 0.75rem; font-weight: 500; }
-  @keyframes pulseRing {
+  @keyframes pulseRing2 {
     0%,100% { box-shadow: 0 0 0 1px var(--accent), 0 0 8px var(--accent-glow); }
     50%     { box-shadow: 0 0 0 1px var(--accent), 0 0 16px var(--accent-glow); }
   }
-  .day-cell.status-pending { border-color: var(--accent); animation: pulseRing 2.4s ease-in-out infinite; }
+  .day-cell.status-pending { border-color: var(--accent); animation: pulseRing2 2.4s ease-in-out infinite; }
   .day-cell.status-future { opacity: 0.28; cursor: default; }
   .day-cell.status-neutral { opacity: 0.42; }
   .week-grid .day-cell { aspect-ratio: 0.95; }
 
-  /* Day view */
   .view-day { display: flex; flex-direction: column; align-items: center; }
   .day-date {
     font-size: 0.72rem; color: var(--muted);
@@ -197,7 +226,6 @@
     margin: 6px 0 16px; font-weight: 600; letter-spacing: 0.01em; min-height: 18px;
   }
 
-  /* Day actions */
   .day-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
   .action-btn {
     padding: 13px 10px; border: 1px solid var(--border);
@@ -214,7 +242,6 @@
   .action-btn.relapse.active { background: var(--danger-soft); border-color: rgba(248,113,113,0.3); }
   .action-btn .ico { font-size: 1rem; font-weight: 700; }
 
-  /* Stats */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; margin-top: 12px; }
   .stat {
     background: var(--card-2); border: 1px solid var(--border);
@@ -231,7 +258,6 @@
     margin-top: 3px;
   }
 
-  /* Info cards */
   .info-card {
     width: 100%; margin-top: 10px;
     background: var(--card-2); border: 1px solid var(--border);
@@ -251,7 +277,6 @@
   .money-card { display: flex; align-items: center; justify-content: space-between; }
   .money-amount { font-size: 1.15rem; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; }
 
-  /* Milestones */
   .milestone-row { display: flex; flex-wrap: wrap; gap: 4px; }
   .milestone {
     padding: 4px 8px; border-radius: 999px;
@@ -262,7 +287,6 @@
   .milestone.done { background: var(--accent-soft); border-color: rgba(52,211,153,0.35); color: var(--accent); }
   .milestone.next { border-color: var(--accent); color: var(--accent); }
 
-  /* Legend */
   .legend {
     display: flex; justify-content: center; flex-wrap: wrap;
     gap: 12px; margin-top: 12px; font-size: 0.63rem; color: var(--muted);
@@ -274,13 +298,12 @@
   .legend-dot.missed  { background: var(--card-2); }
   .legend-dot.today   { border-color: var(--accent); }
 
-  /* Year view */
   .year-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   @media (max-width: 430px) { .year-grid { grid-template-columns: repeat(2, 1fr); } }
   .mini-month {
     background: var(--card-2); border: 1px solid var(--border);
     border-radius: 9px; padding: 8px; cursor: pointer;
-    transition: transform 0.1s, border-color 0.15s;
+    transition: transform 0.1s;
   }
   .mini-month:active { transform: scale(0.96); }
   .mini-month-label {
@@ -296,7 +319,6 @@
   .mini-cell.status-pending { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
   .mini-cell.status-future { background: rgba(255,255,255,0.02); }
 
-  /* Backdrop + Modal */
   .backdrop {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.6);
@@ -334,7 +356,7 @@
     text-align: left; cursor: pointer;
     display: flex; align-items: center; gap: 11px;
     margin-bottom: 8px;
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s;
   }
   .menu-item:active { background: var(--card-3); }
   .menu-item.danger { color: var(--danger); }
@@ -351,7 +373,6 @@
   }
   .modal-close:active { background: var(--card-2); }
 
-  /* Settings */
   .setting-row {
     background: var(--card-2); border: 1px solid var(--border);
     border-radius: 12px; padding: 13px 14px; margin-bottom: 8px;
@@ -368,9 +389,8 @@
     font-family: inherit; font-size: 0.92rem; font-weight: 600;
   }
   .setting-input:focus { outline: none; border-color: var(--accent); }
-  .setting-hint { font-size: 0.68rem; color: var(--dim); margin-top: 6px; }
+  .setting-hint { font-size: 0.68rem; color: var(--dim); margin-top: 6px; line-height: 1.4; }
 
-  /* Achievements */
   .ach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .ach {
     background: var(--card-2); border: 1px solid var(--border);
@@ -385,7 +405,6 @@
   }
   .ach.unlocked .ach-name { color: var(--accent); }
 
-  /* SOS */
   .sos-btn {
     position: fixed; bottom: 22px; right: 22px;
     width: 54px; height: 54px; border-radius: 50%;
@@ -422,7 +441,13 @@
   }
   .cope-item strong { color: var(--accent); }
 
-  /* Note */
+  .sos-verse {
+    background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(52,211,153,0.02));
+    border: 1px solid rgba(52,211,153,0.28);
+    border-radius: 12px; padding: 14px 15px;
+    margin-bottom: 14px; text-align: center;
+  }
+
   .note-box { width: 100%; margin-top: 12px; }
   .note-box label {
     display: block; font-size: 0.62rem; color: var(--muted);
@@ -440,16 +465,12 @@
   .note-box textarea:focus { outline: none; border-color: var(--accent); }
   .note-box textarea::placeholder { color: var(--dim); }
 
-  /* Insights */
   .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
   .insight-card {
     background: var(--card-2); border: 1px solid var(--border);
     border-radius: 11px; padding: 12px;
   }
-  .insight-num {
-    font-size: 1.4rem; font-weight: 700; color: var(--accent);
-    letter-spacing: -0.02em; line-height: 1.1;
-  }
+  .insight-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; line-height: 1.1; }
   .insight-num.gold { color: var(--gold); }
   .insight-num.purple { color: var(--purple); }
   .insight-num.danger { color: var(--danger); }
@@ -465,21 +486,16 @@
     border-radius: 4px; display: flex;
     align-items: flex-end; overflow: hidden;
   }
-  .wd-bar {
-    width: 100%; background: linear-gradient(180deg, #34d399, #10b981);
-    border-radius: 4px 4px 0 0;
-    transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
+  .wd-bar { width: 100%; background: linear-gradient(180deg, #34d399, #10b981); border-radius: 4px 4px 0 0; }
   .wd-label { font-size: 0.55rem; color: var(--muted); font-weight: 700; letter-spacing: 0.04em; }
 
-  /* Journal */
   .journal-list { display: flex; flex-direction: column; gap: 8px; }
   .journal-item {
     background: var(--card-2); border: 1px solid var(--border);
     border-radius: 11px; padding: 11px 13px;
     cursor: pointer; text-align: left;
     font-family: inherit; color: var(--text);
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s;
   }
   .journal-item:active { background: var(--card-3); }
   .journal-head {
@@ -502,14 +518,8 @@
     font-size: 0.82rem; line-height: 1.5;
   }
 
-  /* Celebration modal */
-  .celebrate-modal {
-    text-align: center;
-  }
-  .celebrate-icon {
-    font-size: 3.5rem; margin-bottom: 12px;
-    animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
+  .celebrate-modal { text-align: center; }
+  .celebrate-icon { font-size: 3.5rem; margin-bottom: 12px; animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
   @keyframes pop {
     0%   { transform: scale(0); }
     60%  { transform: scale(1.2); }
@@ -521,21 +531,15 @@
     background: linear-gradient(135deg, #6ee7b7, #34d399);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .celebrate-sub {
-    font-size: 0.85rem; color: var(--muted);
-    line-height: 1.5; margin-bottom: 20px;
+  .celebrate-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+  .celebrate-verse {
+    background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(52,211,153,0.02));
+    border: 1px solid rgba(52,211,153,0.28);
+    border-radius: 12px; padding: 14px; margin-bottom: 18px;
+    text-align: center;
   }
 
-  /* Confetti canvas */
-  .confetti-canvas {
-    position: fixed; inset: 0; pointer-events: none;
-    z-index: 60;
-  }
-
-  /* Onboarding */
-  .onboard-hero {
-    text-align: center; margin-bottom: 20px;
-  }
+  .onboard-hero { text-align: center; margin-bottom: 20px; }
   .onboard-icon { font-size: 3rem; margin-bottom: 10px; }
   .onboard-title {
     font-size: 1.6rem; font-weight: 800;
@@ -543,13 +547,8 @@
     background: linear-gradient(135deg, #6ee7b7, #34d399);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .onboard-sub {
-    font-size: 0.85rem; color: var(--muted); line-height: 1.55;
-  }
-  .onboard-features {
-    display: flex; flex-direction: column; gap: 8px;
-    margin: 18px 0;
-  }
+  .onboard-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+  .onboard-features { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; }
   .onboard-feature {
     display: flex; align-items: center; gap: 10px;
     background: var(--card-2); border: 1px solid var(--border);
@@ -558,7 +557,14 @@
   }
   .onboard-feature .ico { font-size: 1rem; }
 
-  /* Toast */
+  .watermark {
+    text-align: center; margin-top: 22px;
+    font-size: 0.62rem; color: var(--dim);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .watermark span { color: var(--muted); }
+
   .toast {
     position: fixed; left: 50%; bottom: 90px;
     transform: translate(-50%, 20px);
@@ -570,15 +576,17 @@
     transition: opacity 0.25s, transform 0.25s; z-index: 100;
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  .confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
 </style>
 </head>
 <body>
 
 <canvas class="confetti-canvas" id="confetti"></canvas>
 
-<div class="app">
+<div class="app" id="mainApp">
   <div class="header">
-    <div class="brand">Clean Streak</div>
+    <div class="brand"><span class="brand-cross">✝</span> Clean Streak</div>
     <div class="header-right">
       <div class="streak-pill">
         <span class="dot"></span>
@@ -589,6 +597,8 @@
     </div>
   </div>
 
+  <div id="bannerSlot"></div>
+
   <div class="tabs">
     <button class="tab" data-view="day">Day</button>
     <button class="tab" data-view="week">Week</button>
@@ -597,10 +607,12 @@
   </div>
 
   <div class="view-container" id="viewContainer"></div>
+
+  <div class="watermark">Made by <span>Leif</span></div>
 </div>
 
 <button class="sos-btn" id="sosBtn" aria-label="Craving SOS">
-  <span class="sos-ico">✋</span> SOS
+  <span class="sos-ico">✝</span> SOS
 </button>
 
 <div class="backdrop" id="backdrop"></div>
@@ -613,7 +625,7 @@
    Constants
    ============================================================ */
 const STORAGE_KEY = 'cleanStreakData';
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.3.1';
 
 const MILESTONES = [1, 3, 7, 14, 30, 60, 90, 180, 365, 730];
 const MILESTONE_ICONS = {
@@ -634,17 +646,17 @@ const RECOVERY = [
 ];
 
 const ACHIEVEMENTS = [
-  { id: 'first',    icon: '🌱', name: 'First Step',   test: s => s.totalClean >= 1 },
-  { id: 'three',    icon: '⚡', name: 'Three Days',   test: s => s.best >= 3 },
-  { id: 'week',     icon: '🔥', name: 'First Week',   test: s => s.best >= 7 },
-  { id: 'two',      icon: '🛡', name: 'Two Weeks',    test: s => s.best >= 14 },
-  { id: 'month',    icon: '💪', name: 'One Month',    test: s => s.best >= 30 },
-  { id: 'quarter',  icon: '🌟', name: 'Ninety Days',  test: s => s.best >= 90 },
-  { id: 'half',     icon: '👑', name: 'Half Year',    test: s => s.best >= 180 },
-  { id: 'year',     icon: '🏆', name: 'One Year',     test: s => s.best >= 365 },
-  { id: 'century',  icon: '💎', name: '100 Clean',    test: s => s.totalClean >= 100 },
-  { id: 'comeback', icon: '🎯', name: 'Comeback',     test: s => s.totalRelapse > 0 && s.current >= 7 },
-  { id: 'journal',  icon: '📖', name: 'Journaling',   test: s => s.notes >= 5 },
+  { id: 'first',    icon: '🌱', name: 'First Step',    test: s => s.totalClean >= 1 },
+  { id: 'three',    icon: '⚡', name: 'Three Days',    test: s => s.best >= 3 },
+  { id: 'week',     icon: '🔥', name: 'First Week',    test: s => s.best >= 7 },
+  { id: 'two',      icon: '🛡', name: 'Two Weeks',     test: s => s.best >= 14 },
+  { id: 'month',    icon: '💪', name: 'One Month',     test: s => s.best >= 30 },
+  { id: 'quarter',  icon: '🌟', name: 'Ninety Days',   test: s => s.best >= 90 },
+  { id: 'half',     icon: '👑', name: 'Half Year',     test: s => s.best >= 180 },
+  { id: 'year',     icon: '🏆', name: 'One Year',      test: s => s.best >= 365 },
+  { id: 'century',  icon: '💎', name: '100 Clean',     test: s => s.totalClean >= 100 },
+  { id: 'comeback', icon: '🎯', name: 'Comeback',      test: s => s.totalRelapse > 0 && s.current >= 7 },
+  { id: 'journal',  icon: '📖', name: 'Journaling',    test: s => s.notes >= 5 },
   { id: 'warrior',  icon: '⚔️', name: 'Craving Killer', test: s => s.cravings >= 5 }
 ];
 
@@ -654,29 +666,58 @@ const ENCOURAGEMENTS = [
   { min: 3,   text: 'Three days. The fog is lifting.' },
   { min: 7,   text: 'One week strong. Your body is healing.' },
   { min: 14,  text: 'Two weeks. Clarity is returning.' },
-  { min: 30,  text: 'A month. You are rewiring your brain.' },
+  { min: 30,  text: 'A month. You are being renewed.' },
   { min: 60,  text: 'Two months. This is who you are now.' },
-  { min: 90,  text: 'Ninety days. New baseline. Keep going.' },
+  { min: 90,  text: 'Ninety days. A new baseline. Keep going.' },
   { min: 180, text: 'Half a year. Remarkable.' },
   { min: 365, text: 'One year. You are unstoppable.' }
 ];
 
-const QUOTES = [
-  'You are not giving something up. You are getting something back.',
-  'The craving will pass whether you feed it or not.',
-  'Discipline is choosing what you want most over what you want now.',
-  'Your future self is watching you right now through memories.',
-  'Progress, not perfection.',
-  'The opposite of addiction is connection.',
-  'One day at a time. One choice at a time.',
-  'You have survived every craving so far. That is data.',
-  'Feelings are not facts. Cravings are not commands.',
-  'Every clean day is a vote for the person you are becoming.',
-  'Rock bottom is where you stopped digging.',
-  'You do not have to be perfect. You just have to keep going.',
-  'Small steps every day become massive change over time.',
-  'The mind is a garden. What you water grows.'
+const DAILY_VERSES = [
+  { t: 'I can do all things through Christ which strengtheneth me.', r: 'Philippians 4:13' },
+  { t: 'Fear thou not; for I am with thee: be not dismayed; for I am thy God.', r: 'Isaiah 41:10' },
+  { t: 'God is faithful, who will not suffer you to be tempted above that ye are able.', r: '1 Corinthians 10:13' },
+  { t: 'The LORD is my shepherd; I shall not want.', r: 'Psalm 23:1' },
+  { t: 'Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee.', r: 'Joshua 1:9' },
+  { t: 'Trust in the LORD with all thine heart; and lean not unto thine own understanding.', r: 'Proverbs 3:5' },
+  { t: 'The LORD is my rock, and my fortress, and my deliverer.', r: 'Psalm 18:2' },
+  { t: 'Casting all your care upon him; for he careth for you.', r: '1 Peter 5:7' },
+  { t: 'If the Son therefore shall make you free, ye shall be free indeed.', r: 'John 8:36' },
+  { t: 'Be still, and know that I am God.', r: 'Psalm 46:10' },
+  { t: 'God is our refuge and strength, a very present help in trouble.', r: 'Psalm 46:1' },
+  { t: 'For with God nothing shall be impossible.', r: 'Luke 1:37' },
+  { t: 'The joy of the LORD is your strength.', r: 'Nehemiah 8:10' },
+  { t: 'Wait on the LORD: be of good courage, and he shall strengthen thine heart.', r: 'Psalm 27:14' },
+  { t: 'Thy word is a lamp unto my feet, and a light unto my path.', r: 'Psalm 119:105' },
+  { t: 'The LORD shall fight for you, and ye shall hold your peace.', r: 'Exodus 14:14' },
+  { t: 'They that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles.', r: 'Isaiah 40:31' },
+  { t: 'Create in me a clean heart, O God; and renew a right spirit within me.', r: 'Psalm 51:10' },
+  { t: 'Therefore if any man be in Christ, he is a new creature: old things are passed away.', r: '2 Corinthians 5:17' },
+  { t: 'Let us not be weary in well doing: for in due season we shall reap, if we faint not.', r: 'Galatians 6:9' },
+  { t: 'The name of the LORD is a strong tower: the righteous runneth into it, and is safe.', r: 'Proverbs 18:10' },
+  { t: 'Thou wilt keep him in perfect peace, whose mind is stayed on thee.', r: 'Isaiah 26:3' }
 ];
+
+const SOS_VERSES = [
+  { t: 'God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape.', r: '1 Corinthians 10:13' },
+  { t: 'Submit yourselves therefore to God. Resist the devil, and he will flee from you.', r: 'James 4:7' },
+  { t: 'For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.', r: '2 Timothy 1:7' },
+  { t: 'The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.', r: 'Psalm 34:18' },
+  { t: 'I can do all things through Christ which strengtheneth me.', r: 'Philippians 4:13' }
+];
+
+const MILESTONE_VERSES = {
+  1:   { t: 'He which hath begun a good work in you will perform it until the day of Jesus Christ.', r: 'Philippians 1:6' },
+  3:   { t: 'And God said, Let there be light: and there was light.', r: 'Genesis 1:3' },
+  7:   { t: 'And on the seventh day God ended his work which he had made; and he rested.', r: 'Genesis 2:2' },
+  14:  { t: 'The LORD shall fight for you, and ye shall hold your peace.', r: 'Exodus 14:14' },
+  30:  { t: 'They that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles.', r: 'Isaiah 40:31' },
+  60:  { t: 'He brought me up also out of an horrible pit, out of the miry clay, and set my feet upon a rock.', r: 'Psalm 40:2' },
+  90:  { t: 'Be not conformed to this world: but be ye transformed by the renewing of your mind.', r: 'Romans 12:2' },
+  180: { t: 'If any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.', r: '2 Corinthians 5:17' },
+  365: { t: 'Behold, I make all things new.', r: 'Revelation 21:5' },
+  730: { t: 'Thou art worthy, O Lord, to receive glory and honour and power.', r: 'Revelation 4:11' }
+};
 
 /* ============================================================
    State
@@ -690,7 +731,8 @@ const state = {
   currency: '$',
   cravings: 0,
   onboarded: false,
-  celebratedMilestones: []
+  celebratedMilestones: [],
+  lastExport: null
 };
 
 /* ============================================================
@@ -706,10 +748,15 @@ function loadData() {
     state.cravings = raw.cravings || 0;
     state.onboarded = !!raw.onboarded;
     state.celebratedMilestones = Array.isArray(raw.celebratedMilestones) ? raw.celebratedMilestones : [];
+    state.lastExport = raw.lastExport || null;
   } catch {
     state.start = null; state.days = {}; state.dailyCost = 0;
     state.currency = '$'; state.cravings = 0; state.onboarded = false;
-    state.celebratedMilestones = [];
+    state.celebratedMilestones = []; state.lastExport = null;
+  }
+  // CRITICAL FIX: start must always be a valid date string
+  if (!state.start || typeof state.start !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(state.start)) {
+    state.start = todayKey();
   }
 }
 
@@ -722,7 +769,8 @@ function saveData() {
     currency: state.currency,
     cravings: state.cravings,
     onboarded: state.onboarded,
-    celebratedMilestones: state.celebratedMilestones
+    celebratedMilestones: state.celebratedMilestones,
+    lastExport: state.lastExport
   }));
 }
 
@@ -736,6 +784,7 @@ function toKey(d) {
   return `${y}-${m}-${day}`;
 }
 function keyToDate(k) {
+  if (!k || typeof k !== 'string') return new Date();
   const [y, m, d] = k.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
@@ -750,6 +799,10 @@ function weekLabel(a, b) {
 function fmtDate(d) {
   return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
+function fmtShort(key) {
+  return keyToDate(key).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
 
 /* ============================================================
    Status / stats
@@ -775,7 +828,7 @@ function currentStreak() {
 
 function bestStreak() {
   const cleanKeys = Object.keys(state.days)
-    .filter(k => state.days[k].s === 'clean').sort();
+    .filter(k => state.days[k] && state.days[k].s === 'clean').sort();
   let best = 0, run = 0, prev = null;
   for (const k of cleanKeys) {
     if (prev) {
@@ -791,12 +844,14 @@ function bestStreak() {
 function totals() {
   let clean = 0, relapse = 0, notes = 0;
   for (const k in state.days) {
-    if (state.days[k].s === 'clean') clean++;
-    else if (state.days[k].s === 'relapse') relapse++;
-    if (state.days[k].n && state.days[k].n.trim()) notes++;
+    const rec = state.days[k];
+    if (!rec) continue;
+    if (rec.s === 'clean') clean++;
+    else if (rec.s === 'relapse') relapse++;
+    if (rec.n && rec.n.trim()) notes++;
   }
-  const startD = keyToDate(state.start);
-  const elapsed = Math.floor((new Date() - startD) / 86400000) + 1;
+  const startD = state.start ? keyToDate(state.start) : new Date();
+  const elapsed = Math.max(1, daysBetween(startD, new Date()) + 1);
   return { clean, relapse, notes, elapsed, totalClean: clean, totalRelapse: relapse };
 }
 
@@ -819,14 +874,16 @@ function encouragement() {
   return best.text;
 }
 
-function dailyQuote() {
+function dailyVerse() {
   const d = new Date();
-  const idx = (d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate()) % QUOTES.length;
-  return QUOTES[idx];
+  const idx = (d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate()) % DAILY_VERSES.length;
+  return DAILY_VERSES[idx];
 }
 
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 /* ============================================================
-   Data mutation
+   Mutations
    ============================================================ */
 function setDayStatus(key, status) {
   if (key > todayKey()) return;
@@ -868,7 +925,7 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 function launchConfetti(count = 120) {
-  const colors = ['#34d399', '#10b981', '#6ee7b7', '#fbbf24', '#a78bfa', '#f87171'];
+  const colors = ['#34d399', '#10b981', '#6ee7b7', '#fbbf24', '#a78bfa', '#ffffff'];
   const W = window.innerWidth;
   const H = window.innerHeight;
   for (let i = 0; i < count; i++) {
@@ -892,15 +949,8 @@ function tickConfetti() {
   const dpr = devicePixelRatio;
   for (let i = confettiParticles.length - 1; i >= 0; i--) {
     const p = confettiParticles[i];
-    p.vy += 0.4;
-    p.x += p.vx;
-    p.y += p.vy;
-    p.rot += p.vrot;
-    p.life -= 0.008;
-    if (p.life <= 0 || p.y > window.innerHeight + 40) {
-      confettiParticles.splice(i, 1);
-      continue;
-    }
+    p.vy += 0.4; p.x += p.vx; p.y += p.vy; p.rot += p.vrot; p.life -= 0.008;
+    if (p.life <= 0 || p.y > window.innerHeight + 40) { confettiParticles.splice(i, 1); continue; }
     ctx.save();
     ctx.globalAlpha = Math.max(0, p.life);
     ctx.translate(p.x * dpr, p.y * dpr);
@@ -909,16 +959,12 @@ function tickConfetti() {
     ctx.fillRect(-p.size / 2 * dpr, -p.size / 2 * dpr, p.size * dpr, p.size * dpr);
     ctx.restore();
   }
-  if (confettiParticles.length > 0) {
-    confettiRAF = requestAnimationFrame(tickConfetti);
-  } else {
-    confettiRAF = null;
-    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-  }
+  if (confettiParticles.length > 0) confettiRAF = requestAnimationFrame(tickConfetti);
+  else { confettiRAF = null; ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); }
 }
 
 /* ============================================================
-   Milestone detection
+   Milestones
    ============================================================ */
 function checkMilestone() {
   const s = currentStreak();
@@ -934,13 +980,19 @@ function celebrate(days) {
   launchConfetti(160);
   if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]);
   const icon = MILESTONE_ICONS[days] || '🎉';
+  const v = MILESTONE_VERSES[days] || { t: 'This is the day which the LORD hath made; we will rejoice and be glad in it.', r: 'Psalm 118:24' };
   setTimeout(() => {
     openModal(`
       <div class="celebrate-modal">
         <div class="celebrate-icon">${icon}</div>
         <div class="celebrate-title">${days} Days</div>
-        <div class="celebrate-sub">You just hit a milestone. Your brain, your body, and your future self all thank you. Keep going.</div>
-        <button class="menu-item" id="celebrateClose" style="justify-content:center;background:var(--accent);color:#05231a;border-color:var(--accent)">Continue</button>
+        <div class="celebrate-sub">A milestone reached. Give thanks — and keep going.</div>
+        <div class="celebrate-verse">
+          <div class="verse-cross">✝</div>
+          <div class="verse-text">"${v.t}"</div>
+          <div class="verse-ref">${v.r}</div>
+        </div>
+        <button class="menu-item" id="celebrateClose" style="justify-content:center;background:var(--accent);color:#05231a;border-color:var(--accent)">Amen</button>
       </div>
     `);
     document.getElementById('celebrateClose').onclick = () => {
@@ -954,12 +1006,12 @@ function celebrate(days) {
    Toast
    ============================================================ */
 let toastTimer;
-function toast(msg) {
+function toast(msg, duration = 1800) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+  toastTimer = setTimeout(() => el.classList.remove('show'), duration);
 }
 
 /* ============================================================
@@ -970,6 +1022,11 @@ function el(tag, cls, text) {
   if (cls) n.className = cls;
   if (text != null) n.textContent = text;
   return n;
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
 }
 
 /* ============================================================
@@ -1011,6 +1068,16 @@ function createDayCell(date) {
   return cell;
 }
 
+function verseCard(v) {
+  const wrap = el('div', 'verse-card');
+  wrap.innerHTML = `
+    <div class="verse-cross">✝</div>
+    <div class="verse-text">"${v.t}"</div>
+    <div class="verse-ref">${v.r}</div>
+  `;
+  return wrap;
+}
+
 /* ============================================================
    Views
    ============================================================ */
@@ -1034,8 +1101,9 @@ function renderDayView() {
   const prevRec = [...RECOVERY].reverse().find(r => r.d <= streak) || { d: 0 };
   const recProgress = Math.min(1, (streak - prevRec.d) / Math.max(1, nextRec.d - prevRec.d));
 
+  const v = dailyVerse();
+
   wrap.innerHTML = `
-    <div class="quote">${dailyQuote()}</div>
     <div class="day-date">${fmtDate(new Date())}</div>
     <div class="ring-wrap">
       <svg viewBox="0 0 200 200">
@@ -1093,17 +1161,17 @@ function renderDayView() {
     </div>
 
     <div class="info-card">
-      <div class="info-head">
-        <div class="info-title">Milestones</div>
-      </div>
+      <div class="info-head"><div class="info-title">Milestones</div></div>
       <div class="milestone-row" id="milestoneRow"></div>
     </div>
 
     <div class="note-box">
       <label>Today's note</label>
-      <textarea id="dayNote" placeholder="How did today feel? Any triggers, wins, thoughts...">${(state.days[key]?.n) || ''}</textarea>
+      <textarea id="dayNote" placeholder="How did today feel? Any triggers, wins, thoughts...">${(state.days[key] && state.days[key].n) || ''}</textarea>
     </div>
   `;
+
+  wrap.insertBefore(verseCard(v), wrap.firstChild);
 
   wrap.querySelectorAll('[data-act]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1115,10 +1183,12 @@ function renderDayView() {
   });
 
   const noteEl = wrap.querySelector('#dayNote');
-  noteEl.addEventListener('blur', () => {
-    setDayNote(key, noteEl.value.trim());
-    toast('Note saved');
-  });
+  if (noteEl) {
+    noteEl.addEventListener('blur', () => {
+      setDayNote(key, noteEl.value.trim());
+      toast('Note saved');
+    });
+  }
 
   const row = wrap.querySelector('#milestoneRow');
   MILESTONES.forEach(m => {
@@ -1256,27 +1326,66 @@ function renderYearView() {
 }
 
 /* ============================================================
-   Main render
+   Render
    ============================================================ */
 function render() {
-  const streak = currentStreak();
-  document.getElementById('streakCount').textContent = streak;
-  document.getElementById('streakWord').textContent = streak === 1 ? 'day' : 'days';
+  try {
+    const streak = currentStreak();
+    document.getElementById('streakCount').textContent = streak;
+    document.getElementById('streakWord').textContent = streak === 1 ? 'day' : 'days';
 
-  document.querySelectorAll('.tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.view === state.view);
-  });
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.view === state.view);
+    });
 
-  const container = document.getElementById('viewContainer');
-  container.innerHTML = '';
-  container.classList.remove('enter');
-  void container.offsetWidth;
-  container.classList.add('enter');
+    const container = document.getElementById('viewContainer');
+    container.innerHTML = '';
+    container.classList.remove('enter');
+    void container.offsetWidth;
+    container.classList.add('enter');
 
-  if (state.view === 'day')        container.appendChild(renderDayView());
-  else if (state.view === 'week')  container.appendChild(renderWeekView());
-  else if (state.view === 'month') container.appendChild(renderMonthView());
-  else                             container.appendChild(renderYearView());
+    if (state.view === 'day')        container.appendChild(renderDayView());
+    else if (state.view === 'week')  container.appendChild(renderWeekView());
+    else if (state.view === 'month') container.appendChild(renderMonthView());
+    else                             container.appendChild(renderYearView());
+
+    renderBanner();
+  } catch (err) {
+    console.error('Render error:', err);
+  }
+}
+
+function renderBanner() {
+  const slot = document.getElementById('bannerSlot');
+  if (!slot) return;
+  slot.innerHTML = '';
+
+  const dismissed = sessionStorage.getItem('backupDismissed') === todayKey();
+  if (dismissed) return;
+
+  const t = totals();
+  if (t.clean < 3) return;
+
+  let daysSince = null;
+  if (state.lastExport) {
+    daysSince = Math.floor((Date.now() - new Date(state.lastExport).getTime()) / 86400000);
+  }
+  const needsBackup = !state.lastExport || daysSince >= 14;
+  if (!needsBackup) return;
+
+  const banner = el('div', 'banner warn');
+  banner.innerHTML = `
+    <div class="banner-ico">🛡</div>
+    <div class="banner-text">${state.lastExport ? `You haven't backed up in ${daysSince} days.` : `You haven't backed up yet.`} Export to keep your streak safe.</div>
+    <button class="banner-btn" id="backupNow">Back up</button>
+    <button class="banner-dismiss" id="backupDismiss" aria-label="Dismiss">×</button>
+  `;
+  slot.appendChild(banner);
+  banner.querySelector('#backupNow').onclick = exportData;
+  banner.querySelector('#backupDismiss').onclick = () => {
+    sessionStorage.setItem('backupDismissed', todayKey());
+    slot.innerHTML = '';
+  };
 }
 
 /* ============================================================
@@ -1346,55 +1455,100 @@ function openMenu() {
     <button class="menu-item" id="mInsights"><span class="ico">📊</span> Insights</button>
     <button class="menu-item" id="mJournal"><span class="ico">📖</span> Journal</button>
     <button class="menu-item" id="mAchievements"><span class="ico">🏆</span> Achievements</button>
+    <button class="menu-item" id="mVerses"><span class="ico">✝</span> Verse Library</button>
     <button class="menu-item" id="mSettings"><span class="ico">⚙️</span> Settings</button>
     <button class="menu-item" id="mExport"><span class="ico">↗</span> Export data</button>
     <button class="menu-item" id="mImport"><span class="ico">↘</span> Import data</button>
     <button class="menu-item danger" id="mReset"><span class="ico">⚠</span> Reset all data</button>
-    <div style="text-align:center;font-size:0.68rem;color:var(--dim);margin-top:10px">Clean Streak v${APP_VERSION}</div>
+    <div style="text-align:center;font-size:0.68rem;color:var(--dim);margin-top:10px">Clean Streak v${APP_VERSION} · Made by Leif</div>
     <button class="modal-close" id="mClose">Close</button>
   `);
 
   document.getElementById('mInsights').onclick = openInsights;
   document.getElementById('mJournal').onclick = openJournal;
   document.getElementById('mAchievements').onclick = openAchievements;
+  document.getElementById('mVerses').onclick = openVerseLibrary;
   document.getElementById('mSettings').onclick = openSettings;
-
-  document.getElementById('mExport').onclick = () => {
-    const data = JSON.stringify({
-      version: APP_VERSION,
-      start: state.start, days: state.days, dailyCost: state.dailyCost,
-      currency: state.currency, cravings: state.cravings,
-      onboarded: state.onboarded, celebratedMilestones: state.celebratedMilestones
-    }, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `clean-streak-${todayKey()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast('Data exported');
-    closeModal();
-  };
-
-  document.getElementById('mImport').onclick = () => {
-    document.getElementById('importFile').click();
-  };
-
-  document.getElementById('mReset').onclick = () => {
-    if (confirm('Delete all data? This cannot be undone.')) {
-      localStorage.removeItem(STORAGE_KEY);
-      state.start = todayKey();
-      state.days = {};
-      state.dailyCost = 0;
-      state.cravings = 0;
-      state.celebratedMilestones = [];
-      saveData(); closeModal(); render();
-      toast('All data reset');
-    }
-  };
-
+  document.getElementById('mExport').onclick = () => { exportData(); closeModal(); };
+  document.getElementById('mImport').onclick = () => { document.getElementById('importFile').click(); };
+  document.getElementById('mReset').onclick = confirmReset;
   document.getElementById('mClose').onclick = closeModal;
+}
+
+/* ============================================================
+   Triple-confirm reset — then show welcome screen
+   ============================================================ */
+function confirmReset() {
+  closeModal();
+  setTimeout(() => {
+    const c1 = confirm(
+      'Reset all data?\n\n' +
+      'This will erase your entire streak, all notes, and all settings.'
+    );
+    if (!c1) { toast('Reset cancelled'); return; }
+
+    setTimeout(() => {
+      const c2 = confirm(
+        'Are you absolutely sure?\n\n' +
+        'Every clean day you have logged will be permanently deleted.'
+      );
+      if (!c2) { toast('Reset cancelled'); return; }
+
+      setTimeout(() => {
+        const c3 = confirm(
+          'LAST CHANCE.\n\n' +
+          'This cannot be undone. There is no backup unless you exported one.\n\n' +
+          'Tap OK to permanently erase everything and start fresh.'
+        );
+        if (!c3) { toast('Reset cancelled'); return; }
+
+        // Do the reset
+        localStorage.removeItem(STORAGE_KEY);
+        state.start = todayKey();     // FIX: was null, which crashed render
+        state.days = {};
+        state.dailyCost = 0;
+        state.currency = '$';
+        state.cravings = 0;
+        state.onboarded = false;      // FIX: triggers welcome screen
+        state.celebratedMilestones = [];
+        state.lastExport = null;
+        state.view = 'month';
+        state.cursor = new Date();
+        sessionStorage.removeItem('backupDismissed');
+        sessionStorage.removeItem('welcomeShownToday');
+        localStorage.removeItem('lastWelcomeDate');
+        saveData();
+        render();
+        toast('All data reset', 2400);
+        setTimeout(() => showWelcome(), 500);
+      }, 200);
+    }, 200);
+  }, 200);
+}
+
+/* ============================================================
+   Export
+   ============================================================ */
+function exportData() {
+  const data = JSON.stringify({
+    version: APP_VERSION,
+    start: state.start, days: state.days,
+    dailyCost: state.dailyCost, currency: state.currency,
+    cravings: state.cravings, onboarded: state.onboarded,
+    celebratedMilestones: state.celebratedMilestones,
+    lastExport: new Date().toISOString()
+  }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `clean-streak-${todayKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  state.lastExport = new Date().toISOString();
+  saveData();
+  renderBanner();
+  toast('Data exported');
 }
 
 /* ============================================================
@@ -1403,24 +1557,19 @@ function openMenu() {
 function computeInsights() {
   const t = totals();
   const best = bestStreak();
-  const startD = keyToDate(state.start);
+  const startD = state.start ? keyToDate(state.start) : new Date();
 
-  // Longest streak range
   const cleanKeys = Object.keys(state.days)
-    .filter(k => state.days[k].s === 'clean').sort();
+    .filter(k => state.days[k] && state.days[k].s === 'clean').sort();
   let bestStart = null, bestEnd = null, curRun = 0, curStart = null;
   let prev = null;
   for (const k of cleanKeys) {
-    if (prev && k === toKey(addDays(keyToDate(prev), 1))) {
-      curRun++;
-    } else {
-      curRun = 1; curStart = k;
-    }
+    if (prev && k === toKey(addDays(keyToDate(prev), 1))) curRun++;
+    else { curRun = 1; curStart = k; }
     if (curRun === best) { bestStart = curStart; bestEnd = k; }
     prev = k;
   }
 
-  // Weekday success rate
   const weekdayStats = Array.from({ length: 7 }, () => ({ clean: 0, total: 0 }));
   const today = new Date();
   const cur = new Date(startD);
@@ -1435,29 +1584,23 @@ function computeInsights() {
   }
   const weekdayRates = weekdayStats.map(w => w.total === 0 ? 0 : w.clean / w.total);
 
-  // Average streak length across all streaks
   const streaks = [];
   let run = 0;
+  prev = null;
   for (const k of cleanKeys) {
-    if (prev !== null && k === toKey(addDays(keyToDate(prev), 1))) {
-      run++;
-    } else {
-      if (run > 0) streaks.push(run);
-      run = 1;
-    }
+    if (prev !== null && k === toKey(addDays(keyToDate(prev), 1))) run++;
+    else { if (run > 0) streaks.push(run); run = 1; }
     prev = k;
   }
   if (run > 0) streaks.push(run);
   const avgStreak = streaks.length ? streaks.reduce((a, b) => a + b, 0) / streaks.length : 0;
 
-  // Relapse count last 30 days
   const thirtyAgo = new Date(); thirtyAgo.setDate(thirtyAgo.getDate() - 30);
   let relapse30 = 0;
   for (const k in state.days) {
-    if (state.days[k].s === 'relapse' && keyToDate(k) >= thirtyAgo) relapse30++;
+    if (state.days[k] && state.days[k].s === 'relapse' && keyToDate(k) >= thirtyAgo) relapse30++;
   }
 
-  // Success rate
   const past = t.elapsed - 1;
   const rate = past <= 0 ? 0 : Math.round((t.clean / past) * 100);
 
@@ -1481,63 +1624,31 @@ function openInsights() {
     </div>
   `).join('');
 
-  const bestRange = ins.bestStart
-    ? `${fmtShort(ins.bestStart)} → ${fmtShort(ins.bestEnd)}`
-    : '—';
+  const bestRange = ins.bestStart ? `${fmtShort(ins.bestStart)} → ${fmtShort(ins.bestEnd)}` : '—';
 
   openModal(`
     <div class="modal-title">Insights</div>
     <div class="insights-grid">
-      <div class="insight-card">
-        <div class="insight-num">${ins.totalClean}</div>
-        <div class="insight-label">Total clean days</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-num danger">${ins.totalRelapse}</div>
-        <div class="insight-label">Total relapses</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-num gold">${ins.rate}%</div>
-        <div class="insight-label">Success rate</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-num purple">${ins.avgStreak.toFixed(1)}</div>
-        <div class="insight-label">Avg streak length</div>
-      </div>
+      <div class="insight-card"><div class="insight-num">${ins.totalClean}</div><div class="insight-label">Total clean days</div></div>
+      <div class="insight-card"><div class="insight-num danger">${ins.totalRelapse}</div><div class="insight-label">Total relapses</div></div>
+      <div class="insight-card"><div class="insight-num gold">${ins.rate}%</div><div class="insight-label">Success rate</div></div>
+      <div class="insight-card"><div class="insight-num purple">${ins.avgStreak.toFixed(1)}</div><div class="insight-label">Avg streak length</div></div>
     </div>
-
     <div class="info-card" style="margin-bottom:10px">
-      <div class="info-head">
-        <div class="info-title">Longest streak</div>
-        <div class="info-value">${ins.best} days</div>
-      </div>
+      <div class="info-head"><div class="info-title">Longest streak</div><div class="info-value">${ins.best} days</div></div>
       <div class="info-sub">${bestRange}</div>
     </div>
-
     <div class="info-card" style="margin-bottom:10px">
-      <div class="info-head">
-        <div class="info-title">Success by weekday</div>
-        <div class="info-value">${ins.tracked} days tracked</div>
-      </div>
+      <div class="info-head"><div class="info-title">Success by weekday</div><div class="info-value">${ins.tracked} days tracked</div></div>
       <div class="weekday-bars">${bars}</div>
     </div>
-
     <div class="info-card" style="margin-bottom:14px">
-      <div class="info-head">
-        <div class="info-title">Last 30 days</div>
-        <div class="info-value">${ins.relapse30} relapse${ins.relapse30 === 1 ? '' : 's'}</div>
-      </div>
+      <div class="info-head"><div class="info-title">Last 30 days</div><div class="info-value">${ins.relapse30} relapse${ins.relapse30 === 1 ? '' : 's'}</div></div>
       <div class="info-sub">${ins.streaks} streak${ins.streaks === 1 ? '' : 's'} started</div>
     </div>
-
     <button class="modal-close" id="closeInsights">Back</button>
   `);
   document.getElementById('closeInsights').onclick = openMenu;
-}
-
-function fmtShort(key) {
-  const d = keyToDate(key);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 /* ============================================================
@@ -1584,12 +1695,6 @@ function openJournal() {
   document.getElementById('closeJournal').onclick = openMenu;
 }
 
-function escapeHtml(s) {
-  return s.replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
-}
-
 /* ============================================================
    Achievements
    ============================================================ */
@@ -1617,6 +1722,25 @@ function openAchievements() {
 }
 
 /* ============================================================
+   Verse Library
+   ============================================================ */
+function openVerseLibrary() {
+  const all = [...DAILY_VERSES, ...SOS_VERSES];
+  const items = all.map(v => `
+    <div class="cope-item">
+      <div style="font-style:italic;margin-bottom:5px">"${v.t}"</div>
+      <div style="color:var(--accent);font-size:0.7rem;font-weight:700;letter-spacing:0.06em">${v.r}</div>
+    </div>
+  `).join('');
+  openModal(`
+    <div class="modal-title">Verse Library</div>
+    <div style="max-height:60vh;overflow-y:auto;padding-right:4px">${items}</div>
+    <button class="modal-close" id="closeVerses" style="margin-top:14px">Back</button>
+  `);
+  document.getElementById('closeVerses').onclick = openMenu;
+}
+
+/* ============================================================
    Settings
    ============================================================ */
 function openSettings() {
@@ -1625,12 +1749,12 @@ function openSettings() {
     <div class="setting-row">
       <div class="setting-label">Quit date</div>
       <input type="date" class="setting-input" id="startInput" value="${state.start}">
-      <div class="setting-hint">The day you started tracking. Days before this are ignored.</div>
+      <div class="setting-hint">The day you started tracking.</div>
     </div>
     <div class="setting-row">
       <div class="setting-label">Daily spend</div>
       <input type="number" step="0.5" min="0" class="setting-input" id="costInput" value="${state.dailyCost}" placeholder="0">
-      <div class="setting-hint">How much you spent per day on weed, on average.</div>
+      <div class="setting-hint">Used to show money saved.</div>
     </div>
     <div class="setting-row">
       <div class="setting-label">Currency symbol</div>
@@ -1644,11 +1768,9 @@ function openSettings() {
     const startVal = document.getElementById('startInput').value;
     const costVal = parseFloat(document.getElementById('costInput').value);
     const currVal = document.getElementById('currencyInput').value.trim() || '$';
-
     if (startVal) state.start = startVal;
     state.dailyCost = isNaN(costVal) || costVal < 0 ? 0 : costVal;
     state.currency = currVal;
-
     saveData(); closeModal(); render();
     toast('Settings saved');
   };
@@ -1659,17 +1781,23 @@ function openSettings() {
    SOS
    ============================================================ */
 function openSOS() {
+  const v = pickRandom(SOS_VERSES);
   openModal(`
     <div class="modal-title">Craving SOS</div>
+    <div class="sos-verse">
+      <div class="verse-cross">✝</div>
+      <div class="verse-text">"${v.t}"</div>
+      <div class="verse-ref">${v.r}</div>
+    </div>
     <div class="breath-wrap">
       <div class="breath-circle" id="breathCircle">Breathe</div>
     </div>
     <div class="breath-hint" id="breathHint">Follow the circle. Inhale as it grows, exhale as it shrinks.</div>
     <div class="cope-list">
+      <div class="cope-item"><strong>Pray</strong> — You are not alone in this moment. Ask for strength.</div>
       <div class="cope-item"><strong>4-7-8 breathing</strong> — Inhale 4s, hold 7s, exhale 8s. Repeat 4 times.</div>
       <div class="cope-item"><strong>Drink water</strong> — A full glass, slowly. Cravings peak and fade in 10–15 min.</div>
-      <div class="cope-item"><strong>Move your body</strong> — A short walk or 20 jumping jacks resets your nervous system.</div>
-      <div class="cope-item"><strong>Name it</strong> — "This is a craving. It will pass. I am in control."</div>
+      <div class="cope-item"><strong>Move your body</strong> — A short walk resets your nervous system.</div>
       <div class="cope-item"><strong>Delay 15 minutes</strong> — If you still want it after 15 min, come back to this screen.</div>
     </div>
     <button class="menu-item" id="sosSurvived" style="margin-top:14px;justify-content:center;background:var(--accent);color:#05231a;border-color:var(--accent)">I made it through</button>
@@ -1709,20 +1837,25 @@ function openSOS() {
 }
 
 /* ============================================================
-   Onboarding
+   Welcome / Onboarding
    ============================================================ */
-function showOnboarding() {
+function showWelcome() {
+  const v = dailyVerse();
   openModal(`
     <div class="onboard-hero">
-      <div class="onboard-icon">🌱</div>
+      <div class="onboard-icon">✝</div>
       <div class="onboard-title">Welcome</div>
-      <div class="onboard-sub">A private, personal tracker to help you quit weed. Everything stays on your device.</div>
+      <div class="onboard-sub">A private, personal tracker to help you walk free. Everything stays on your device.</div>
+    </div>
+    <div class="verse-card" style="margin:16px 0">
+      <div class="verse-text">"${v.t}"</div>
+      <div class="verse-ref">${v.r}</div>
     </div>
     <div class="onboard-features">
       <div class="onboard-feature"><span class="ico">✓</span> Daily check-in with one tap</div>
       <div class="onboard-feature"><span class="ico">📅</span> Day, week, month, year views</div>
-      <div class="onboard-feature"><span class="ico">🏆</span> Streaks, milestones, achievements</div>
-      <div class="onboard-feature"><span class="ico">✋</span> Craving SOS when things get hard</div>
+      <div class="onboard-feature"><span class="ico">✝</span> Scripture for every milestone</div>
+      <div class="onboard-feature"><span class="ico">🏆</span> Streaks, levels, achievements</div>
     </div>
     <div class="setting-row">
       <div class="setting-label">When did you start?</div>
@@ -1746,7 +1879,34 @@ function showOnboarding() {
     saveData();
     closeModal();
     render();
-    toast('Welcome to Clean Streak 🌱');
+    toast('Welcome 🌱', 2200);
+    localStorage.setItem('lastWelcomeDate', todayKey());
+  };
+}
+
+function showWelcomeBack() {
+  const streak = currentStreak();
+  const v = dailyVerse();
+  const greeting = streak > 0
+    ? `You're on <strong style="color:var(--accent)">${streak} day${streak === 1 ? '' : 's'}</strong> clean. Keep going.`
+    : 'Every day is a fresh start. Begin again in strength.';
+
+  openModal(`
+    <div class="onboard-hero">
+      <div class="onboard-icon">✝</div>
+      <div class="onboard-title">Welcome back</div>
+      <div class="onboard-sub">${greeting}</div>
+    </div>
+    <div class="verse-card" style="margin:16px 0">
+      <div class="verse-text">"${v.t}"</div>
+      <div class="verse-ref">${v.r}</div>
+    </div>
+    <button class="menu-item" id="wbContinue" style="justify-content:center;background:var(--accent);color:#05231a;border-color:var(--accent)">Continue</button>
+  `);
+
+  document.getElementById('wbContinue').onclick = () => {
+    closeModal();
+    localStorage.setItem('lastWelcomeDate', todayKey());
   };
 }
 
@@ -1754,11 +1914,8 @@ function showOnboarding() {
    Init
    ============================================================ */
 function init() {
+  const hadData = !!localStorage.getItem(STORAGE_KEY);
   loadData();
-
-  if (!state.onboarded) {
-    showOnboarding();
-  }
 
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1780,6 +1937,18 @@ function init() {
       try {
         const parsed = JSON.parse(ev.target.result);
         if (!parsed || typeof parsed !== 'object' || !parsed.days) throw new Error('bad');
+        const cur = totals();
+        const imported = Object.values(parsed.days || {});
+        const importedClean = imported.filter(r => r && r.s === 'clean').length;
+        const importedRelapse = imported.filter(r => r && r.s === 'relapse').length;
+
+        const msg =
+          `Import will replace ALL current data.\n\n` +
+          `Current:  ${cur.clean} clean · ${cur.relapse} relapse\n` +
+          `Imported: ${importedClean} clean · ${importedRelapse} relapse\n\n` +
+          `This cannot be undone. Continue?`;
+        if (!confirm(msg)) { e.target.value = ''; return; }
+
         state.start = parsed.start || todayKey();
         state.days = parsed.days;
         state.dailyCost = parsed.dailyCost || 0;
@@ -1798,6 +1967,27 @@ function init() {
   });
 
   render();
+
+  // Welcome flow
+  const freshStart = !hadData || !state.onboarded;
+  if (freshStart) {
+    setTimeout(() => showWelcome(), 350);
+  } else {
+    // Welcome back once per calendar day
+    const lastWelcome = localStorage.getItem('lastWelcomeDate');
+    if (lastWelcome !== todayKey()) {
+      setTimeout(() => showWelcomeBack(), 400);
+    } else {
+      // Brief toast for same-day reopens
+      setTimeout(() => {
+        const streak = currentStreak();
+        const msg = streak > 0
+          ? `${streak} day${streak === 1 ? '' : 's'} clean ✝`
+          : 'Welcome back ✝';
+        toast(msg, 2000);
+      }, 350);
+    }
+  }
 }
 
 init();
